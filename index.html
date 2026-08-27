@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Career Studio Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="rail">
+        <div class="brand">
+          <div class="brand__mark">CS</div>
+          <div>
+            <h1>Career Studio Pro</h1>
+            <p>简历 · 作品集 · JD 研究</p>
+          </div>
+        </div>
+        <nav class="nav" aria-label="工作流程">
+          <button class="nav__item is-active" data-view="match" type="button">方向匹配</button>
+          <button class="nav__item" data-view="jd" type="button">JD 研究</button>
+          <button class="nav__item" data-view="intake" type="button">信息采集</button>
+          <button class="nav__item" data-view="resume" type="button">简历润色</button>
+          <button class="nav__item" data-view="portfolio" type="button">作品集 PPT</button>
+          <button class="nav__item" data-view="export" type="button">交付预览</button>
+        </nav>
+        <div class="rail__note">
+          <strong>好的结果来自具体证据。</strong>
+          <span>工具会持续追问场景、动作、指标、约束和影响，而不是只把句子改得更漂亮。</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">Professional Resume & Portfolio Builder</span>
+            <h2 id="viewTitle">方向匹配</h2>
+          </div>
+          <div class="topbar__actions">
+            <span class="status" id="aiStatus">规则模式</span>
+            <button id="saveAll" type="button">保存</button>
+            <button class="primary" id="loadExample" type="button">示例</button>
+          </div>
+        </header>
+
+        <section class="view is-active" data-panel="match">
+          <div class="two-col">
+            <section class="block">
+              <div class="block__head">
+                <h3>你想找的方向</h3>
+                <button id="matchDirection" type="button">匹配关键词</button>
+              </div>
+              <label>方向描述
+                <textarea id="directionIntent" rows="6" placeholder="不用写标准岗位名，直接描述你想做什么。例如：我想做 AI 产品里更偏用户体验和数据分析的工作，不想做纯视觉，也不想做销售型售前。"></textarea>
+              </label>
+              <div class="field-grid">
+                <label>偏好的工作内容<input id="workPreference" placeholder="例如：策略、增长、B 端、AI 应用、作品集顾问" /></label>
+                <label>不想做的内容<input id="avoidPreference" placeholder="例如：纯销售、电话客服、纯视觉外包" /></label>
+                <label>当前背景<input id="candidateBackground" placeholder="例如：5 年产品设计，做过 SaaS 和数据平台" /></label>
+                <label>目标级别<input id="desiredSeniority" placeholder="例如：高级 / 负责人 / 转型入门" /></label>
+              </div>
+              <label>验证 JD
+                <textarea id="validationJdText" rows="8" placeholder="把用推荐关键词搜到的 2-5 条 JD 粘贴到这里，工具会判断搜索词是否搜偏，并给出调整建议。"></textarea>
+              </label>
+              <button class="primary" id="validateKeywords" type="button">验证关键词是否搜准</button>
+            </section>
+            <section class="block">
+              <h3>平台搜索词与验证标准</h3>
+              <div class="keyword-output" id="keywordOutput"></div>
+              <div class="advisor" id="keywordValidation"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-panel="jd">
+          <div class="two-col">
+            <section class="block">
+              <div class="block__head">
+                <h3>目标岗位与 JD</h3>
+                <button id="analyzeJd" type="button">分析 JD</button>
+              </div>
+              <div class="field-grid">
+                <label>目标职位<input id="targetRole" placeholder="例如：高级产品设计师 / AI 产品经理" /></label>
+                <label>城市<input id="targetCity" placeholder="例如：上海 / 北京 / Remote" /></label>
+                <label>行业<input id="targetIndustry" placeholder="例如：AI SaaS / 消费品 / 金融科技" /></label>
+                <label>年限<input id="targetLevel" placeholder="例如：5-8 年 / 负责人 / 专家" /></label>
+              </div>
+              <label>JD 链接
+                <textarea id="jdUrls" rows="4" placeholder="每行一个链接。公开页面可尝试读取；需要登录、验证码或限制访问的网站，请把 JD 文本粘贴到下方。"></textarea>
+              </label>
+              <label>JD 原文
+                <textarea id="jdText" rows="12" placeholder="粘贴猎聘、Boss 直聘、LinkedIn 或公司官网的岗位描述。建议粘贴 3-8 个同类岗位。"></textarea>
+              </label>
+            </section>
+            <section class="block">
+              <div class="block__head">
+                <h3>岗位画像</h3>
+                <button id="fetchUrls" type="button">读取链接</button>
+              </div>
+              <div class="insight-grid" id="jdInsights"></div>
+              <div class="advisor" id="jdAdvisor"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-panel="intake">
+          <div class="two-col">
+            <section class="block">
+              <div class="block__head">
+                <h3>你的原始信息</h3>
+                <button id="generateQuestions" type="button">生成追问</button>
+              </div>
+              <label>个人定位<textarea id="candidateProfile" rows="5" placeholder="你是谁、目标岗位是什么、最想被看见的优势是什么。"></textarea></label>
+              <label>经历草稿<textarea id="rawExperience" rows="12" placeholder="直接用大白话写也可以：做过什么、负责什么、遇到什么问题、最后有什么结果。"></textarea></label>
+              <label>项目素材<textarea id="rawProjects" rows="9" placeholder="列出 2-4 个最能代表你的项目，包括背景、你的角色、产出、指标、链接。"></textarea></label>
+            </section>
+            <section class="block">
+              <h3>为了做出好简历，需要补充的信息</h3>
+              <div class="question-list" id="questionList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-panel="resume">
+          <div class="two-col">
+            <section class="block">
+              <div class="block__head">
+                <h3>简历生成与润色</h3>
+                <button id="polishResume" type="button">润色简历</button>
+              </div>
+              <label>目标风格
+                <select id="resumeTone">
+                  <option value="impact">结果导向，适合中高级岗位</option>
+                  <option value="ats">ATS 友好，关键词清晰</option>
+                  <option value="executive">管理者叙事，突出战略和团队影响</option>
+                </select>
+              </label>
+              <label>当前简历内容<textarea id="resumeDraft" rows="18"></textarea></label>
+            </section>
+            <section class="block">
+              <h3>润色结果</h3>
+              <div class="output" id="resumeOutput"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-panel="portfolio">
+          <div class="two-col">
+            <section class="block">
+              <div class="block__head">
+                <h3>作品集 PPT 策划</h3>
+                <button id="makeDeck" type="button">生成逐页方案</button>
+              </div>
+              <label>目标受众
+                <select id="portfolioAudience">
+                  <option value="hiring">面试官 / 招聘负责人</option>
+                  <option value="business">业务负责人 / 客户</option>
+                  <option value="design">设计评审 / 专业同行</option>
+                </select>
+              </label>
+              <label>作品集目标<textarea id="portfolioGoal" rows="4" placeholder="例如：申请高级产品设计师，希望突出复杂业务理解、AI 产品经验和数据化结果。"></textarea></label>
+              <label>重点项目<textarea id="portfolioProjects" rows="12" placeholder="每个项目写：背景、问题、你的角色、过程、方案、结果、可展示素材。"></textarea></label>
+            </section>
+            <section class="block">
+              <div class="block__head">
+                <h3>逐页确认</h3>
+                <button id="exportDeck" type="button">导出 PPT 草稿</button>
+              </div>
+              <div class="slides" id="slidePlan"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-panel="export">
+          <div class="deliverables">
+            <section class="block">
+              <h3>简历预览</h3>
+              <article class="resume-preview" id="finalResume"></article>
+            </section>
+            <section class="block">
+              <h3>交付说明</h3>
+              <div class="checklist">
+                <p><strong>简历判断标准：</strong>岗位匹配、关键词覆盖、成果量化、职责边界清楚、1-2 页可读。</p>
+                <p><strong>作品集判断标准：</strong>每个项目有问题定义、决策过程、你的贡献、最终影响，而不是只展示界面截图。</p>
+                <p><strong>JD 获取建议：</strong>公开网页可尝试读取；需要登录的网站建议手动复制 JD，避免账号风险和验证码中断。</p>
+              </div>
+              <button class="primary" id="printPage" type="button">打印 / 保存 PDF</button>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
